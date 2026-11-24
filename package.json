@@ -1,0 +1,10 @@
+{
+  "name": "c3-invasion",
+  "private": true,
+  "scripts": {
+    "test": "node tests/ar-smoke.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

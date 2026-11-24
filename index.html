@@ -5,6 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>C3 Invasion</title>
     <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
+    <script src="js/vendor/Capsule.js"></script>
+    <script src="js/vendor/Octree.js"></script>
+    <script src="js/first-person-controls.js"></script>
+    <script src="js/marker-weapon.js"></script>
+    <link rel="stylesheet" href="css/ar-controls.css" />
   </head>
-  <body></body>
+  <body>
+    <section id="ar-panel" aria-label="Câmera e marcador">
+      <details open>
+        <summary>Arma por marcador</summary>
+        <p>
+          A arma acompanha a posição e a inclinação do marcador no topo da peça.
+        </p>
+        <button id="camera-toggle" type="button">Ativar câmera</button>
+        <label for="camera-select">Câmera</label>
+        <select id="camera-select">
+          <option value="">Automática (preferir traseira)</option>
+        </select>
+        <label for="marker-width">Largura da imagem impressa (cm)</label>
+        <input
+          id="marker-width"
+          type="number"
+          min="1"
+          max="50"
+          step="0.5"
+          value="10"
+        />
+        <label for="weapon-scale">Escala da arma</label>
+        <input
+          id="weapon-scale"
+          type="number"
+          min="0.05"
+          max="5"
+          step="0.05"
+          value="0.7"
+        />
+        <a href="assets/target.webp" target="_blank" rel="noopener"
+          >Abrir marcador para imprimir ou mostrar em outra tela</a
+        >
+        <video
+          id="camera-preview"
+          autoplay
+          muted
+          playsinline
+          aria-label="Prévia da câmera"
+          hidden
+        ></video>
+        <p id="marker-status" role="status">
+          Câmera desligada. A arma aparece ao reconhecer o marcador.
+        </p>
+      </details>
+    </section>
+    <div id="movement-status" role="status">Carregando terreno e colisões…</div>
+    <a-scene
+      background="color: #c7ddeb"
+      xr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+      marker-weapon
+    >
+      <a-assets timeout="30000">
+        <a-asset-item
+          id="c3-external-area-model"
+          src="assets/c3_external_area.glb"
+        ></a-asset-item>
+        <a-asset-item id="gun-model" src="assets/gun.glb"></a-asset-item>
+      </a-assets>
+
+      <a-entity
+        id="c3-external-area"
+        gltf-model="#c3-external-area-model"
+        position="0 0 0"
+      ></a-entity>
+
+      <a-entity light="type: ambient; intensity: 1"></a-entity>
+      <a-entity
+        light="type: directional; intensity: 2"
+        position="-80 150 100"
+      ></a-entity>
+
+      <a-entity
+        id="player"
+        position="0 0 50"
+        first-person-controls="world: #c3-external-area; camera: #player-camera"
+      >
+        <a-entity
+          id="player-camera"
+          camera="near: 0.05; far: 2000"
+          position="0 1.65 0"
+          look-controls="pointerLockEnabled: true"
+        >
+          <a-entity id="weapon-anchor" visible="false">
+            <a-entity
+              id="held-gun"
+              gltf-model="#gun-model"
+              visible="false"
+            ></a-entity>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+    </a-scene>
+  </body>
 </html>
