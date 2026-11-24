@@ -1,0 +1,24 @@
+# Dependências e arquivos gerados
+node_modules/
+dist/
+build/
+coverage/
+
+# Variáveis de ambiente locais
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# Arquivos do sistema operacional e temporários do editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+
+# Histórico local do editor
+.history/
